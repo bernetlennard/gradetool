@@ -1,6 +1,6 @@
 package com.teko.gradetool.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "grade",
         indexes = {
                 @Index(name = "idx_grade_participant_id", columnList = "participant_id"),
@@ -23,10 +22,12 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference("participant-grades")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "participant_id", nullable = false, foreignKey = @ForeignKey(name = "fk_grade_participant"))
     private Participant participant;
 
+    @JsonBackReference("assessmenttype-grades")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assessmenttype_id", foreignKey = @ForeignKey(name = "fk_grade_assessmenttype"))
     private AssessmentType assessmentType;

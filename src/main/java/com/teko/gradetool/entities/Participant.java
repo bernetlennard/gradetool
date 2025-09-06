@@ -1,6 +1,8 @@
 package com.teko.gradetool.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "participant",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_participant_person_course", columnNames = {"person_id", "course_id"})
@@ -26,16 +27,17 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference("person-participants")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "fk_participant_person"))
-    @JsonIgnoreProperties({"participations", "taughtCourses", "gender"})
     private Person person;
 
+    @JsonBackReference("course-participants")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false, foreignKey = @ForeignKey(name = "fk_participant_course"))
-    @JsonIgnoreProperties({"participants", "semester", "teacher"})
     private Course course;
 
+    @JsonManagedReference("participant-grades")
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Grade> grades = new HashSet<>();
 

@@ -1,6 +1,7 @@
 package com.teko.gradetool.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "course",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_course_name_semester", columnNames = {"course_name", "semester_id"})
@@ -36,14 +36,17 @@ public class Course {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @JsonBackReference("teacher-courses")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", foreignKey = @ForeignKey(name = "fk_course_teacher"))
     private Person teacher;
 
+    @JsonBackReference("semester-courses")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semester_id", nullable = false, foreignKey = @ForeignKey(name = "fk_course_semester"))
     private Semester semester;
 
+    @JsonManagedReference("course-participants")
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Participant> participants = new HashSet<>();
 

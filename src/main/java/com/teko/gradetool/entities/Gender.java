@@ -1,6 +1,6 @@
 package com.teko.gradetool.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +24,7 @@ public class Gender {
     @Column(name = "gender", nullable = false, unique = true)
     private String gender;
 
+    @JsonManagedReference("gender-persons")
     @OneToMany(mappedBy = "gender")
     private Set<Person> persons = new HashSet<>();
 

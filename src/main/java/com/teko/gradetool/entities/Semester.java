@@ -1,6 +1,7 @@
 package com.teko.gradetool.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class Semester {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @JsonManagedReference("semester-courses")
     @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<Course> courses = new HashSet<>();
 

@@ -1,6 +1,6 @@
 package com.teko.gradetool.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +21,7 @@ public class AssessmentType {
     @Column(name = "type", nullable = false, unique = true)
     private String type;
 
+    @JsonManagedReference("assessmenttype-grades")
     @OneToMany(mappedBy = "assessmentType")
     private Set<Grade> grades = new HashSet<>();
 
