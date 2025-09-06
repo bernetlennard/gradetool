@@ -1,4 +1,4 @@
-Es handelt sich hierbei um ein Notentoo, das durch Schulen, Lehrer und Schüler benutzt werden kann. Diese Noten können für verschiede Kurse aufgeteilt auf mehreren Semestern hinterlegt werden. Dazu werden die wesentlichsten Informationen der Schüler und Lehrer ebenfalls gespeichert.
+Es handelt sich hierbei um ein Notentool, das durch Schulen, Lehrer und Schüler benutzt werden kann. Diese Noten können für verschiede Kurse aufgeteilt auf mehreren Semestern hinterlegt werden. Dazu werden die wesentlichsten Informationen der Schüler und Lehrer ebenfalls gespeichert.
 
 Es wird eine Lokale PostgreSQL Datenbank gebraucht. Im File "src/main/resources/application.properties" wird die Datenbankverbindung konfiguriert
 
